@@ -1,13 +1,19 @@
-import { Application } from "express";
+import { Application, Request, Response, NextFunction } from "express";
 import * as errorHandler from "errorhandler";
+import * as logger from "morgan";
+import * as bodyParser from "body-parser";
+import * as passport from "passport";
+import Passport from "./modules/Passport";
 import api from "./api/v1";
-
+import expressValidator = require("express-validator");
 export default class App {
-  constructor(public app: Application) {}
+  constructor(public app: Application, private passport: Passport) {}
 
   public init() {
+    this.passport.init();
     this.config();
     this.api();
+    this.errorHandle();
 
     return this;
   }
@@ -24,7 +30,26 @@ export default class App {
 
   private config() {
     this.app.set("port", process.env.PORT || 3000);
-    this.app.use(errorHandler());
+    this.app.use(bodyParser.json());
+    this.app.use(bodyParser.urlencoded({ extended: true }));
+    this.app.use(passport.initialize());
+    this.app.use(expressValidator());
+    this.app.use(logger("dev"));
+  }
+
+  private errorHandle() {
+    this.app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+      const status = err.status || res.statusCode || 400;
+      const data = {
+        status,
+        error: true,
+        message: err.message,
+      };
+
+      res
+        .status(status)
+        .json(data);
+    });
   }
 
   private api() {
