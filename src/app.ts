@@ -1,11 +1,12 @@
 import { Application, Request, Response, NextFunction } from "express";
-import * as errorHandler from "errorhandler";
 import * as logger from "morgan";
 import * as bodyParser from "body-parser";
+import * as cors from "cors";
 import * as passport from "passport";
 import Passport from "./modules/Passport";
 import api from "./api/v1";
 import expressValidator = require("express-validator");
+
 export default class App {
   constructor(public app: Application, private passport: Passport) {}
 
@@ -30,6 +31,7 @@ export default class App {
 
   private config() {
     this.app.set("port", process.env.PORT || 3000);
+    this.app.use(cors());
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(passport.initialize());

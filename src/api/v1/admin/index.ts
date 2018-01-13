@@ -3,7 +3,7 @@ import { register, getUsers } from "./user";
 
 const router = Router();
 
-router.post("/user", register);
+router.post("/users", register);
 router.get("/users", getUsers);
 
 export default router;
