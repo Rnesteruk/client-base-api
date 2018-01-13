@@ -15,18 +15,20 @@ async function register(req: Request, res: Response, next: NextFunction) {
     return res.status(422).json({ errors });
   }
 
-  const user = new User({
-    username: req.body.username,
-    password: req.body.password,
-  });
+  const username = req.body.username;
+  const password = req.body.password;
 
-  return isExists(user.username)
+  return isExists(username)
     .then((exists: boolean): any => {
       if (exists) {
         res.status(401);
         throw new Error("username already exists");
       }
-      return user.save();
+      const user = new User({
+        username,
+      });
+      return user.setPassword(password)
+        .then(() => user.save());
     })
     .then(data => res.json(data))
     .catch(next);

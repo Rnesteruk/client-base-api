@@ -39,7 +39,8 @@ export default class App {
 
   private errorHandle() {
     this.app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-      const status = err.status || res.statusCode || 400;
+      const { statusCode } = res;
+      const status = statusCode === 200 ? 400 : statusCode;
       const data = {
         status,
         error: true,

@@ -1,10 +1,9 @@
 import * as passport from "passport";
 import { Strategy as PassportStrategy } from "passport-strategy";
-import { Strategy as LocalStrategy } from "passport-local";
-import local from "./local";
+import localStrategy from "./local";
+import jwtStrategy from "./jwt";
 
-const localStrategy = new LocalStrategy(local);
-const defaults: PassportStrategy[] = [ localStrategy ];
+const defaults: PassportStrategy[] = [ localStrategy, jwtStrategy];
 
 export default class Passport {
   constructor(private strategys: PassportStrategy[] = defaults) {}
