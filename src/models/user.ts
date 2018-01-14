@@ -1,6 +1,6 @@
 import { Schema } from "mongoose";
 import * as bcrypt from "bcrypt";
-import * as jwt from "jwt-simple";
+import * as jwt from "jsonwebtoken";
 
 const userShema: Schema = new Schema({
   username: {
@@ -26,10 +26,13 @@ userShema.methods.setPassword = async function(password: string): Promise<void> 
 
 userShema.virtual("token").get(function () {
   const secret = process.env.JWT_SECRET;
-  const token =  jwt.encode({
+  const expiresIn = process.env.JWT_EXPIRES;
+  const token = jwt.sign({
     username: this.username,
-  }, secret);
-  return `Bearer ${token}`;
+  },
+  secret,
+  { expiresIn });
+  return token;
 });
 
 export default userShema;
