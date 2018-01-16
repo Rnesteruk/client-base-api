@@ -6,7 +6,11 @@ export default class DB {
   connect() {
     const mongoUrl = process.env.MONGODB_URI;
 
-    return mongoose.connect(mongoUrl, {useMongoClient: true}).then(
+    if (process.env.NODE_ENV !== "production") {
+      mongoose.set("debug", true);
+    }
+
+    return mongoose.connect(mongoUrl, { config: {autoIndex: false}, useMongoClient: true}).then(
       () => { /** ready to use. The `mongoose.connect()` promise resolves to undefined. */ },
     ).catch(err => {
       console.log("MongoDB connection error. Please make sure MongoDB is running. " + err);

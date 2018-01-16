@@ -1,0 +1,25 @@
+[
+  {
+    "id": 0,
+    "code": "113344",
+    "name": "ФОП 'Імя'",
+    "typeOfClient": "Фіз особа",
+    "personName": "Імя",
+    "telephone": "(000) 43-00-39",
+    "keyACSK": "Наші",
+    "keyEndDate": "2018-01-28",
+    "keySum": "111",
+    "keyProses": "недозвон",
+    "keyResult": "Автопродовження",
+    "keyPay": "да",
+    "program": "Програма",
+    "programEndDate": "2018-01-29",
+    "programSum": "500",
+    "programProses": "думають",
+    "programResult": "Перейшли на іншу",
+    "programPay": "да",
+    "lastModify": "2018-01-28",
+    "manager": "Kate",
+    "comments": "не хотят"
+  }
+]
