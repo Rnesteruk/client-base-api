@@ -4,6 +4,7 @@ import { authenticate } from "passport";
 export {
   login,
   auth,
+  refreshToken,
 };
 
 function auth() {
@@ -31,4 +32,9 @@ function login(req: Request, res: Response, next: NextFunction) {
       return res.json(user.toObject({ virtuals: true }));
     });
   })(req, res, next);
+}
+
+function refreshToken(req: Request, res: Response, next: NextFunction) {
+  const { token } = req.user.toObject({ virtuals: true });
+  return res.json({ token });
 }
