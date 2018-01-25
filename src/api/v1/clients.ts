@@ -11,7 +11,11 @@ export {
 };
 
 function getClients(req: Request, res: Response, next: NextFunction) {
+  const skip = +req.query.skip || 0;
+  const limit = +req.query.top || 0;
   return Client.find({})
+    .skip(skip)
+    .limit(limit)
     .then(clients => res.json(clients))
     .catch(next);
 }
